@@ -60,6 +60,17 @@ public class TestController extends HttpServlet {
 			else if(action.equals("login")) {
 				forwarding(request, response, "login");
 			}
+			else if(action.equals("detail")) {
+				
+				// DB 접속
+				String strId = request.getParameter("articleId");
+				int id = Integer.parseInt(strId);
+				Article article = adao.getArticleById(id);
+				
+				request.setAttribute("article", article);
+				forwarding(request, response, "detail");
+				
+			}
 			else if(action.equals("doLogin")) {
 				
 				String loginId = request.getParameter("loginId");

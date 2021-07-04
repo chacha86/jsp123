@@ -18,6 +18,31 @@ public class ArticleDao {
 		return conn;
 	}
 	
+	public Article getArticleById(int articleId) throws ClassNotFoundException, SQLException {
+		Connection conn = getConnection();
+		Statement stmt = conn.createStatement();
+		
+		String sql = "SELECT * FROM article WHERE id = " + articleId;
+		
+		ResultSet rs = stmt.executeQuery(sql);
+		
+		ArrayList<Article> articleList = new ArrayList<>();
+		
+		if(rs.next()) {
+			int id = rs.getInt("id");
+			String title = rs.getString("title");
+			String body = rs.getString("body");
+			String regDate = rs.getString("regDate");
+			int hit = rs.getInt("hit");
+			
+			Article a = new Article(id, regDate, title, body,  "", hit);
+			
+			return a;
+		}
+		
+		return null;
+	}
+	
 	public ArrayList<Article> getArticleList() throws ClassNotFoundException, SQLException {
 		Connection conn = getConnection();
 		Statement stmt = conn.createStatement();

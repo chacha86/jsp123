@@ -12,24 +12,13 @@
 </head>
 <body>
 <h1> 게시물 목록 </h1>
-<a href="/JSP/jsp/day6/addForm.jsp">글쓰기</a>
-
-<c:choose>
-	<c:when test="${ loginedUser == null}">
-		<a href="/JSP/article6/login">로그인</a> <br>
-	</c:when>
-	<c:otherwise>
-		<c:out value="${ loginedUser.name }"/> <a href="/JSP/article6/doLogout">로그아웃</a> <br>
-	</c:otherwise>
-</c:choose>
-
+<%@ include file="topMenu.jsp" %>
 <!-- 출력부 -->
 <c:forEach items="${articles}" var="article">
 	번호 : ${article.id} <br>
-	제목 : ${article.title} <br>
-	내용 : ${article.body} <br>
+	제목 : <a href="/JSP/article6/detail?articleId=${article.id}">${article.title} </a><br>
 	<hr>
 </c:forEach>
-
+<a href="/JSP/jsp/day6/addForm.jsp">글쓰기</a>
 </body>
 </html>
