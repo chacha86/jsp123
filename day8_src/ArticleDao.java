@@ -48,14 +48,17 @@ public class ArticleDao {
 		return null;
 	}
 	
-	public ArrayList<Article> getArticleList() throws ClassNotFoundException, SQLException {
+	public ArrayList<Article> getArticleList(int pageNo) throws ClassNotFoundException, SQLException {
 		Connection conn = getConnection();
 		Statement stmt = conn.createStatement();
+		
+		int startIdx = (pageNo - 1) * 10;
 		
 		String sql = "SELECT a.id, a.title, a.body, a.regDate, m.name, a.hit, a.memberId\r\n" + 
 				"FROM article a \r\n" + 
 				"INNER JOIN `member` m\r\n" + 
-				"ON a.memberId = m.id";
+				"ON a.memberId = m.id\r\n" +
+				"LIMIT " + startIdx + ", 10";
 		
 		ResultSet rs = stmt.executeQuery(sql);
 		

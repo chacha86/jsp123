@@ -144,8 +144,33 @@ public class TestController extends HttpServlet {
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, ServletException, IOException {
-		ArrayList<Article> articles = adao.getArticleList();
+		int pageNo = 1;
+		
+		if(request.getParameter("pageNo") != null) {
+			pageNo = Integer.parseInt(request.getParameter("pageNo"));			
+		}
+		
+		
+		
+		// 1블럭 : 1 ~ 5 / 5 -> 0.xxx ~ 1
+		// 2블럭 : 6 ~ 10 / 5 -> 1.xxxx ~ 2
+		// 3블럭 : 11 ~ 15 / 5 -> 2.xxxx ~ 3
+		// (현재페이지 / 한블럭당 페이지 수) 올림
+		
+		int currentBlock = (int)Math.ceil((double)pageNo / 5);
+		
+		// 블럭의 시작 페이지, 끝 페이지
+		// 1블럭 (5 * 현재블럭 - 1) + 1 ~ 시작페이지 + 4
+		// 2블럭 (5 * 현재블럭 - 1) + 1 ~ 시작페이지 + 4
+		// 3블럭 (5 * 현재블럭 - 1) + 1 ~ 시작페이지 + 4
+		int startPageNo = 5 * (currentBlock - 1) + 1;
+		int endPageNo = startPageNo + 4;
+		
+		ArrayList<Article> articles = adao.getArticleList(pageNo);
 		request.setAttribute("articles", articles);
+		request.setAttribute("pageNo", pageNo);
+		request.setAttribute("startPageNo", startPageNo);
+		request.setAttribute("endPageNo", endPageNo);
 		
 		forwarding(request, response, "list");		
 	}

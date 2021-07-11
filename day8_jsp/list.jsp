@@ -19,6 +19,19 @@
 	제목 : <a href="/JSP/article8/detail?articleId=${article.id}">${article.title} </a><br>
 	<hr>
 </c:forEach>
+
+<a href="/JSP/article8/list?pageNo=${ startPageNo - 1 }">이전</a>
+<c:forEach begin="${startPageNo}" end="${endPageNo}" var="num">
+	<c:choose>
+		<c:when test="${ num == pageNo }">
+			<a href="/JSP/article8/list?pageNo=${num}">[${num}]</a>
+		</c:when>
+		<c:otherwise>
+			<a href="/JSP/article8/list?pageNo=${num}">${num}</a>	
+		</c:otherwise>
+	</c:choose>
+</c:forEach>
+<a href="/JSP/article8/list?pageNo=${ endPageNo + 1 }">다음</a><br>
 <a href="/JSP/article8/addForm">글쓰기</a>
 </body>
 </html>
